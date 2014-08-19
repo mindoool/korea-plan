@@ -1,0 +1,78 @@
+{% extends "layout.html" %}
+{% block body %}
+  
+  <div class="container">
+    <div class="col-md-12"><h3> {{ session.wall_username }} Wall - Read Page </h3></div>
+    <div id="left" class="col-md-2">
+      <div class="btn-group-vertical">
+        <button type="button" class="btn btn-default">Menu1</button>
+        <button type="button" class="btn btn-default">Menu2</button>
+        <div class="btn-group">
+          <button id="btnGroupVerticalDrop1" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+          Menu3
+          <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="btnGroupVerticalDrop1">
+            <li><a href="#">Sub Menu1</a></li>
+            <li><a href="#">Sub Menu2</a></li>
+          </ul>
+        </div>
+        <button type="button" class="btn btn-default">Menu4</button>
+        <button type="button" class="btn btn-default">Menu5</button>
+      </div>
+    </div>
+    <div id="right" class="col-md-9">
+      {{message}}
+      {% if readpost %}
+        <div class="panel panel-default">
+          <div class="panel-heading"> 
+            <a href="{{ url_for('wall',wall_id=readpost.user_id) }}"> {{readpost.user.username}} </a>
+            {% if (session.user_id==readpost.user_id) or (session.user_id==readpost.wall_id) %}
+              <div class="delete"><a href="{{ url_for('delete', id=readpost.id) }}">delete</a></div>
+            {%endif%}
+            {% if session.user_id==readpost.user_id %}
+              <div class="comment_right"><a href="{{ url_for('post_revise', id=readpost.id) }}">revise</a></div>
+            {%endif%}
+            <div class="time">{{readpost.created_time}}</div>
+            <div class="secret">{{readpost.is_secret}}</div>
+          </div>
+          <div class="panel-body">
+            <div class="wall-content">
+              <pre>{{readpost.body}}</pre>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="list-group">
+            {% if readcomment %}
+              {%for comment in readcomment%}
+              <div class="list-group-item">
+                <dt> {{comment.username}} </dt>
+                <dr>
+                  {% if (session.user_id==comment.user_id) or (session.user_id==session.wall_id) %}
+                    <div class="comment_right"><a href="{{ url_for('comment_delete', id=comment.id) }}">delete</a></div>
+                  {% endif %}
+                  
+                  <div class="comment_right">{{comment.created_time}}</div>
+                </dr>
+                <dd><div><pre>{{comment.body}}</pre></div></dd>
+              </div>
+              {%endfor%}
+            {% else %}
+              댓글을 작성해주세요!
+            {% endif %}
+          </div>
+          write comment
+          <form action="{{ url_for('comment') }}" method=post>
+            <div>
+              <textarea rows="2" cols="100" name="comment_body"> </textarea>
+              <dd><input type="submit" value="write comment"></dd>
+            </div>
+          </form>
+        </div>
+      {% else %}
+        <a href="{{ url_for('write') }}"> 글을 작성해주세요!</a>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

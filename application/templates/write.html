@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="container-fluid">
+	<h3>Write</h3>
+	<div id="title">
+		<p>Write here</p>
+	</div>
+	<div class="col-lg-6">
+		<form action="{{ url_for('write') }}" method=post>
+			<div>
+				<textarea rows="7" cols="100" name="body"> </textarea>
+				<dd><input type="checkbox" name="is_secret">비밀글</dd>
+				<dd><input type="submit" value="write"></dd>
+			</div>
+		</form>
+	</div>
+</div>
+{% endblock %}

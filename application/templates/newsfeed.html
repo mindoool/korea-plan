@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block body %}
+<script type="text/javascript" src="{{ url_for('static', filename='js/newsfeed-script.js')}}"></script>
+  <div class="container">
+    <div class="col-xs-10 col-md-10"><h3> Newsfeed </h3> </div>
+    <div id="newsfeed_left" class="col-xs-3 col-md-3">
+      <div class="btn-group-vertical">
+        <button type="button" class="btn btn-default">Menu1</button>
+        <button type="button" class="btn btn-default">Menu2</button>
+        <div class="btn-group">
+          <button id="btnGroupVerticalDrop2" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+          Menu3
+          <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="btnGroupVerticalDrop1">
+            <li><a href="#">Sub Menu1</a></li>
+            <li><a href="#">Sub Menu2</a></li>
+          </ul>
+        </div>
+        <button type="button" class="btn btn-default">Menu4</button>
+        <button type="button" class="btn btn-default">Menu5</button>
+      </div>
+    </div>
+    <div id="newsfeed_right" class="col-xs-8 col-md-8">
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends "layout.html" %}
+{% block body %}
+  <meta charset="UTF-8">
+  <script type="text/javascript" src="{{url_for('static', filename ='js/signup-script.js')}}"></script>
+  {% if message %}<p class=error><strong>Message:</strong> {{ message }}{% endif %}
+  <div class="container-fluid signup">
+    <div class="col-md-3"></div>
+    <div class="col-md-6 signup_container">
+      <h2>Signup</h2>
+      {% if data %}
+      <form action="{{ url_for('user_revise_check', id=session.user_id) }}" method=post>
+        <dl>
+          <dt>E-mail:</dt>
+          <dd><textarea rows="1" cols="50" name="email" id="myemail">{{data.email}}</textarea></dd>
+          <div id="email_ok" class="signupmessageok"></div><div id="email_err" class="signupmessageerr"></div>
+          <dt>Password:</dt>
+          <dd><input type=password name="password" id="mypw" size="50"></dd>
+          <div id="pw_ok" class="signupmessageok"></div><div id="pw_err" class="signupmessageerr"></div><br>
+          <dt>Password Check:</dt>
+          <dd><input type=password name="password_check" id="mypwcheck" size="50"></dd>
+          <div id="pwcheck_ok" class="signupmessageok"></div><div id="pwcheck_err" class="signupmessageerr"></div><br>
+          <dt>Username:</dt>
+          <dd><textarea rows="1" cols="50" name="username" id="myusername">{{data.username}}</textarea></dd>
+          <div id="username_ok" class="signupmessageok"></div><div id="username_err" class="signupmessageerr"></div><br>
+          <dt>Gender:</dt>
+          <dd>
+          <input type="radio" name="gender" value="M"> Male<br>
+          <input type="radio" name="gender" value="F"> Female<br>
+          </dd>
+          <div id="gender_ok" class="signupmessageok"></div><div id="gender_err" class="signupmessageerr"></div><br>
+          <dt>Phone:</dt>
+          <dd><textarea rows="1" cols="50" name="phone" id="myphone">{{data.phone}}</textarea></dd>
+          <div id="mobile_ok" class="signupmessageok"></div><div id="mobile_err" class="signupmessageerr"></div><br>
+          <dt>Birthday:</dt>
+          <dd><input type="date" name="birthday" size="50"></dd>
+          <div id="birthday_ok" class="signupmessageok"></div><div id="birthday_err" class="signupmessageerr"></div><br>
+          <dd><input type=submit value="Submit"></dd>
+        </dl>
+      </form>
+      {% else %}
+      <form action="{{ url_for('signup') }}" method=post>
+        <dl>
+          <dt>E-mail:</dt>
+          <dd><input type=text name="email" id="myemail" size="50"></dd>
+          <div id="email_ok" class="signupmessageok"></div><div id="email_err" class="signupmessageerr"></div><br>
+          <dt>Password:</dt>
+          <dd><input type=password name="password" id="mypw" size="50"></dd>
+          <div id="pw_ok" class="signupmessageok"></div><div id="pw_err" class="signupmessageerr"></div><br>
+          <dt>Password Check:</dt>
+          <dd><input type=password name="password_check" id="mypwcheck" size="50"></dd>
+          <div id="pwcheck_ok" class="signupmessageok"></div><div id="pwcheck_err" class="signupmessageerr"></div><br>
+          <dt>Username:</dt>
+          <dd><input type=text name="username" id="myusername" size="50"></dd>
+          <div id="username_ok" class="signupmessageok"></div><div id="username_err" class="signupmessageerr"></div><br>
+          <dt>Gender:</dt>
+          <dd>
+          <input type="radio" name="gender" value="M"> Male<br>
+          <input type="radio" name="gender" value="F"> Female<br>
+          </dd>
+          <div id="gender_ok" class="signupmessageok"></div><div id="gender_err" class="signupmessageerr"></div><br>
+          <dt>Phone:</dt>
+          <dd><input type=text name="phone" id="myphone" size="50"></dd>
+          <div id="mobile_ok" class="signupmessageok"></div><div id="mobile_err" class="signupmessageerr"></div><br>
+          <dt>Birthday:</dt>
+          <dd><input type="date" name="birthday" size="50"></dd>
+          <div id="birthday_ok" class="signupmessageok"></div><div id="birthday_err" class="signupmessageerr"></div><br>
+          <dd><input type=submit value="Submit"></dd>
+        </dl>
+      </form>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

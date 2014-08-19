@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+{% block body %}
+<script type="text/javascript" src="{{ url_for('static', filename='js/member.js')}}"></script>
+<meta charset="UTF-8">
+<div class="container-fluid">
+	<div class="col-md-3"></div>
+	<div class="col-md-6 member_content">
+		<h2>Find Users</h2>
+		<input type="text" name="find_user" id="input-find-user" class="form-control" autofocus="" placeholder="Type username here">
+		<ul id="find-result" class="list-group"></ul>
+		<h2> Followers </h2>
+		<ul id="follower" class="list-group"></ul>
+		{% if followers.count()>0 %}
+			{%for follower in followers%}
+				<li class="list-group-item" data-user-id="{{follower.follower.id}}" > {{ follower.follower.username }} </li>
+			{% endfor %}
+		{% else %}
+			<p> No followers </p>
+		{% endif %}
+		<h2> Followees </h2>
+		<ul id="followee" class="list-group"></ul>
+		{% if followees.count()>0 %}
+			{%for followee in followees%}
+				<li class="list-group-item" data-user-id="{{followee.followee.id}}" > {{ followee.followee.username }} </li>
+			{% endfor %}
+		{% else %}
+			<p> No followees </p>
+		{% endif %}
+		<h2>Our Members</h2>
+		<table>
+			{% if users %}
+				{% for user in users %}
+				<tr class="tr_member">
+					<td class="td_member"> {{user.id}} </td>
+					<td class="td_member"> {{user.email}} </td>
+					<td class="td_member"><a href="{{ url_for('wall', wall_id=user.id) }}"> {{user.username}} </a></td>
+					<td class="td_member"> {{user.gender}} </td>
+					<td class="td_member"> {{user.birthday}} </td>
+				</tr>
+				{% endfor %}
+			{% else %}
+				<h3> No users </h3>
+			{% endif %}
+		</table>
+	</div>
+	<div class="col-md-3"></div>
+</div>
+{% endblock %}

@@ -1,0 +1,137 @@
+#logo {
+	margin-left: 20px;
+	display: inline;
+}
+
+#left {
+	
+}
+
+#main_page_body {
+	background-image: url('https://dl.dropboxusercontent.com/u/24247548/img/bgimage.jpg');
+	background-repeat: no-repeat;
+	background-size: 100%;
+	height: 400px;
+}
+
+#write_content {
+	line-height: 300px;
+}
+
+#door_text {
+	line-height: 200px;
+	height: 180px;
+	font-size: 4em;
+}
+
+.wall-container {
+	width: 80%;
+	height: 150px;
+	border: 1px solid black;
+	margin: 10px;
+}
+
+.wall-content {
+	height: 80%;
+	margin: 5px;
+	color: black;
+}
+
+.signup {
+	background: url('../res/img/20140502_134922.jpg');
+	background-repeat: no-repeat;
+	background-size: 100%;
+}
+
+.signupmessageok {
+	color:blue;
+	font-size: 10px;
+	display: inline-block;
+}
+
+.signupmessageerr {
+	color:red;
+	font-size: 10px;
+	display: inline-block;
+}
+
+
+.reply {
+	border-top: 1px solid black;
+	height: 10%;
+	margin: 5px;
+}
+
+a:link {
+	text-decoration: none;
+}
+
+.main {
+	display: inline-block;
+	text-align: center;
+	margin: 10px;
+	font-size: 1.5em;
+	color: white;
+	background-color: #428bca;
+	line-height: 2em;
+}
+
+.door_container {
+	height: 250px;
+	margin-top: 5%;
+	background-color:rgba(255,255,255,0.6); 
+}
+
+.signup_container {
+	height: 600px;
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+	margin-top: 2%;
+	padding-left: 20px;
+	background-color:rgba(255,255,255,0.6);
+}
+
+.time {
+	float: right;
+	display: inline-block;
+	margin-right: 10px;
+}
+
+.secret {
+	float: right;
+	display: inline-block;
+	margin-right: 10px;
+}
+
+.delete {
+	float: right;
+	display: inline-block;
+	color: black;
+	margin-right: 10px;
+}
+
+.wall_id_name {
+	float: right;
+	display: inline-block;
+	color: black;
+	margin-right: 10px;
+}
+
+.comment_right {
+	float: right;
+	margin-right: 10px;
+	color: black;
+}
+
+.member_content {
+	padding-bottom: 2em
+}
+
+.tr_member {
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+}
+
+.td_member {
+	padding: 1.2em;
+}

@@ -1,0 +1,41 @@
+{% if readpost.count() >0 %}
+  {%for post in readpost%}
+    <div class="panel panel-default">
+      <div class="panel-heading"> 
+        <a href="{{ url_for('wall',wall_id=post.user_id) }}"> {{post.user.username}} </a>
+        {% if (session.user_id==post.user_id) or (session.user_id==session.wall_id) %}
+          <div class="delete"><a href="{{ url_for('delete', id=post.id) }}">delete</a></div>
+        {% endif %}
+        {% if session.user_id==post.user_id %}
+          <div class="comment_right"><a href="{{ url_for('post_revise', id=post.id) }}">revise</a></div>
+        {% endif %}
+        <div class="time">{{post.created_time}}</div>
+        {% if post.is_secret==True %}
+          <div class="secret">secret</div>
+        {% else %}
+          <div class="secret">public</div>
+        {% endif %}
+      </div>
+      
+      <div class="panel-body">
+        {% if post.is_secret==False %}
+          <div class="wall-content">
+          <a href="{{ url_for('read', id=post.id, wall_id=post.wall_id) }}"><pre>{{post.body}}</pre></a>
+          </div>
+        {% else %}
+          {% if (session.user_id == post.user_id) or (session.user_id==session.wall_id) %}
+            <div class="wall-content">
+            <a href="{{ url_for('read', id=post.id, wall_id=post.wall_id) }}"><pre>{{post.body}}</pre></a>
+            </div>
+          {% else %}
+            <div class="wall-content">
+            비밀글입니다. 궁금하시죠?
+            </div>
+          {% endif %}
+        {% endif %}
+      </div>
+    </div>
+  {%endfor%}
+{% else %}
+  <a href="{{ url_for('write') }}"> 글을 작성해주세요!</a>
+{% endif %}
