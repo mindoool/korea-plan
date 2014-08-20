@@ -21,7 +21,7 @@ def get_user(wall_id):
 def get_user_by_email(email):
 	return User.query.filter(User.email == email).one()
 
-def get_user_by_email2(email):
+def is_email_duplicated(email) : 
     return User.query.filter(User.email == email).count() != 0
 
 def get_user_by_id(id):
@@ -36,10 +36,10 @@ def get_user_all():
 def revise_user(id,data):
     user = User.query.get(id)
     user.username=data['username']
-    gender = data['gender']
-    password = db.func.md5(data['password'])
-    phone = data['phone']
-    birthday = data['birthday']
+    user.gender = data['gender']
+    user.password = db.func.md5(data['password'])
+    user.phone = data['phone']
+    user.birthday = data['birthday']
     db.session.commit()
 
 def add_profile_image(user_id, filename):

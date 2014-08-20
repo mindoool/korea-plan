@@ -1,6 +1,10 @@
 {% extends "layout.html" %}
+
+{% head_import %}
+  <script type="text/javascript" src="{{ url_for('static', filename='js/member.js')}}"></script>
+{% endblock %}
+
 {% block body %}
-<script type="text/javascript" src="{{ url_for('static', filename='js/member.js')}}"></script>
 <meta charset="UTF-8">
 <div class="container-fluid">
 	<div class="col-md-3"></div>

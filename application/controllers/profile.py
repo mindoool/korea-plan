@@ -1,4 +1,5 @@
 from application import app
+from application.const import *
 from flask import render_template, request, redirect, url_for, session
 from application.models.filemanager import *
 from application.models.usermanager import *
@@ -18,10 +19,8 @@ def upload_image():
 	extension = filename.split('.')[-1]
 	new_file_name = str(session['user_id'])+'.'+ extension
 
-	directory = '/gs/korea-plan/profile/'
-
 	# filepath = /gs/korea-plan/profile/5.jpg
-	filepath = directory + new_file_name
+	filepath = FILE_UPLOAD_DIRECTORY + new_file_name
 
 	save_file(image_file, filepath)
 
@@ -32,6 +31,5 @@ def upload_image():
 #http://korea-plan.appspot.com/image/progile/1
 @app.route('/image/profile/<filename>')
 def get_profile_image(filename):
-	directory = '/gs/korea-plan/profile/'
-	filepath = directory + filename
+	filepath = FILE_UPLOAD_DIRECTORY + filename
 	return read_file(filepath)

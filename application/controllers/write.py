@@ -9,12 +9,8 @@ from application.models.commentmanager import *
 def write():
 	if request.method == 'POST':
 		data={}
-		if "is_secret" in request.form:
-			issecret=1
-		else:
-			issecret=0
 		data["body"] = request.form['body']
-		data["is_secret"] = issecret
+		data["is_secret"] = [0, 1]['is_secret' in request.form]
 		data["user_id"] = session['user_id']
 		data["wall_id"] = session['wall_id']
 		write_post(data)

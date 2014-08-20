@@ -19,3 +19,8 @@ def delete_comment(id):
     comment = Comment.query.get(id)
     db.session.delete(comment)
     db.session.commit()
+
+def get_by_post_id(post_id, is_desc = False) :
+    post = postmanager.read_post_by_id(post_id)
+    if is_desc : return post.comments.order_by(desc(Comment.created_time))
+    else       : return post.comments.order_by(asc(Comment.created_time))

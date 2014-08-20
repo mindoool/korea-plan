@@ -1,9 +1,7 @@
 from flask import Flask, request, session, g, redirect, url_for, abort, render_template, flash
 from application import app, db
 from application.models.schema import *
-from application.models.usermanager import *
-from application.models.postmanager import *
-from application.models.commentmanager import *
+from application.model import usermanage, postmanager, commentmanager
 
 @app.route('/write_comment', methods=['GET','POST'])
 def comment():
@@ -12,7 +10,7 @@ def comment():
         data['body'] = request.form['comment_body']
         data['post_id'] = session['post_id']
         data["user_id"] = session['user_id']
-        write_comment(data)
+        commentmanager.write_comment(data)
     else:
         message= "You can't comment it"
     return redirect(url_for('read',id=session['post_id'], wall_id=session['wall_id']))
@@ -24,5 +22,5 @@ def comment_delete(id):
     if session['user_id']==comment.user_id:
         delete_comment(id)
     else:
-        flash('You can\'t delete it')
+        flash("You can't delete it")
     return redirect(url_for('read',id=session['post_id'], wall_id=session['wall_id']))

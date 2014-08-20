@@ -2,9 +2,10 @@ from application import db
 from schema import *
 
 def add_follower(data):
-	follow = Follow ( follower_id = data['follower_id'],
+	follow = Follow (
+		follower_id = data['follower_id'],
 		followee_id = data['followee_id']
-		)
+	)
 	db.session.add(follow)
 	db.session.commit() 
 

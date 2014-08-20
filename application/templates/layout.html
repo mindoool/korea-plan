@@ -8,51 +8,55 @@
   <link type="text/css" rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}"/>
   <script type="text/javascript" src="{{url_for('static', filename='js/jquery-1.11.1.min.js')}}"></script>
   <script type="text/javascript" src="{{url_for('static', filename ='js/bootstrap.min.js')}}"></script>
+  {% head_import %}
+  {% endblock %}
 </head>
-<div class=page>
-  <div class="container-fluid">
-    <a href="{{ url_for('index') }}"><div id="logo"><h2>Our SNS</h2></div></a>
-    <div class=metanav>
-      <nav class="navbar navbar-default navbar-static-top" role="navigation">
-        <div class="container">
-          <div class="navbar-header">
-            <a class="navbar-brand" href="{{ url_for('index') }}">Korea plan</a>
-          </div>
-          <ul class="nav navbar-nav">
+<body>
+  <div class=page>
+    <div class="container-fluid">
+      <a href="{{ url_for('index') }}"><div id="logo"><h2>Our SNS</h2></div></a>
+      <div class=metanav>
+        <nav class="navbar navbar-default navbar-static-top" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <a class="navbar-brand" href="{{ url_for('index') }}">Korea plan</a>
+            </div>
+            <ul class="nav navbar-nav">
+              {% if not session.logged_in %}
+              <li id="login-btn"><a href="{{ url_for('login') }}">Login</a></li>
+              <li id="signup-btn"><a href="{{ url_for('signup') }}">Sign up</a></li>
+              {% else %}
+              <li id="wall-btn"><a href="{{ url_for('wall') }}">My wall</a></li>
+              <li id="newsfeed-btn"><a href="{{ url_for('newsfeed') }}">Newsfeed</a></li>
+              <li id="member-btn"><a href="{{ url_for('member') }}">Members</a></li>
+              {% endif %}
+            </ul>
             {% if not session.logged_in %}
-            <li id="login-btn"><a href="{{ url_for('login') }}">Login</a></li>
-            <li id="signup-btn"><a href="{{ url_for('signup') }}">Sign up</a></li>
-            {% else %}
-            <li id="wall-btn"><a href="{{ url_for('wall') }}">My wall</a></li>
-            <li id="newsfeed-btn"><a href="{{ url_for('newsfeed') }}">Newsfeed</a></li>
-            <li id="member-btn"><a href="{{ url_for('member') }}">Members</a></li>
-            {% endif %}
-          </ul>
-          {% if not session.logged_in %}
 
-          {% else %}
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="{{ url_for('wall') }}"> Welcome, {{session.user_name}}</a></li>
-            <li><a href="{{ url_for('user_revise', id=session.user_id)}}"> 개인정보 수정 </a></li>
-            <li><a href="{{ url_for('logout') }}"> logout </a></li>
-          </ul>
-          {% endif %}
-        </div>
-      </nav>
-    </div>
-  </div>
-  
-  {% block body %} 
-  <div id="main_page_body">
-    <div class="container-fluid"> 
-      <div class="col-xs-1 col-md-1"></div>
-      <div class="col-xs-4 col-md-4 door_container">
-        <div id="door_text" align="center">Welcome!</div>
-        <a href="{{ url_for('login') }}"><div class="main col-xs-5 col-md-5">Login</div></a>
-        <div class="col-xs-1 col-md-1"></div>
-        <a href="{{ url_for('signup') }}"><div class="main col-xs-5 col-md-5">Sign up</div></a>
+            {% else %}
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="{{ url_for('wall') }}"> Welcome, {{session.user_name}}</a></li>
+              <li><a href="{{ url_for('user_revise', id=session.user_id)}}"> 개인정보 수정 </a></li>
+              <li><a href="{{ url_for('logout') }}"> logout </a></li>
+            </ul>
+            {% endif %}
+          </div>
+        </nav>
       </div>
     </div>
+    
+    {% block body %} 
+    <div id="main_page_body">
+      <div class="container-fluid"> 
+        <div class="col-xs-1 col-md-1"></div>
+        <div class="col-xs-4 col-md-4 door_container">
+          <div id="door_text" align="center">Welcome!</div>
+          <a href="{{ url_for('login') }}"><div class="main col-xs-5 col-md-5">Login</div></a>
+          <div class="col-xs-1 col-md-1"></div>
+          <a href="{{ url_for('signup') }}"><div class="main col-xs-5 col-md-5">Sign up</div></a>
+        </div>
+      </div>
+    </div>
+    {% endblock %}
   </div>
-  {% endblock %}
-</div>
+</body>

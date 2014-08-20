@@ -1,6 +1,5 @@
 from flask import Flask, request, session, g, redirect, url_for, abort, render_template, flash
-from application import app, db
-import json
+from application import app
 from application.models.schema import *
 from application.models.usermanager import *
 
