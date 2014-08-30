@@ -33,7 +33,7 @@
           {% else %}
           <ul class="nav navbar-nav navbar-right">
             <li><a href="{{ url_for('wall') }}"> Welcome, {{session.user_name}}</a></li>
-            <li><a href="{{ url_for('user_revise', id=session.user_id)}}"> 개인정보 수정 </a></li>
+            <li><a href="{{ url_for('profile')}}"> 개인정보 수정 </a></li>
             <li><a href="{{ url_for('logout') }}"> logout </a></li>
           </ul>
           {% endif %}

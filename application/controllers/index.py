@@ -1,6 +1,6 @@
 #-*- coding:utf-8 -*-
 from application import app
-from flask import Flask, request, session, g, redirect, url_for, abort, render_template, flash
+from flask import session, redirect, url_for, render_template, flash
 from application.models.schema import *
 
 @app.route('/')
@@ -9,7 +9,7 @@ def index() :
 	if not 'logged_in' in session:
 		return render_template('layout.html')
 	else:
-		return render_template('wall.html')
+		return redirect(url_for('newsfeed'))
 
 
 @app.route('/logout')

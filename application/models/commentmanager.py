@@ -1,7 +1,7 @@
 from flask import session
 from application import db
 from schema import *
-from sqlalchemy import asc
+
 
 def write_comment(data):
     comment = Comment ( 

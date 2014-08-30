@@ -32,15 +32,15 @@ $(document).ready(function(){
     }
   });
   $('input[name=password]').change(function(){
-    if(8 <= ($('#mypw').val()).length <= 20){
+    if((8 <= ($('#mypw').val()).length) & (($('#mypw').val()).length <= 20)){
       if($('#mypw').val().match(/[a-zA-Z]+/)){
         if($('#mypw').val().match(/[0-9]+/)){
           if($('#mypw').val().match(/\W+/)){
-            $('#pw_ok').text('OK')
+            $('#pw_ok').text('OK');
             $('#pw_err').empty();
           }
           else {
-            $('#pw_err').text('비밀번호에는 특수문자가 포함되어야 합니다.')
+            $('#pw_err').text('비밀번호에는 특수문자가 포함되어야 합니다.');
             $('#pw_ok').empty(); 
           }
         }
@@ -55,7 +55,7 @@ $(document).ready(function(){
       }
     }
     else {
-      $('#pw_err').text('비밀번호 길이는 8~20자 사이어야 합니다.')
+      $('#pw_err').text('비밀번호 길이는 8~20자 사이어야 합니다.');
       $('#pw_ok').empty();
     }
   });

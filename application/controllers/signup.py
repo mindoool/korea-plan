@@ -1,50 +1,108 @@
-from flask import request, render_template, redirect, url_for, session
+from flask import request, render_template, redirect, url_for
 from application import app
 import re
 import json
-import os
 from application.models.schema import *
-from application.models.usermanager import *
+from application.models import usermanager
+from flask.ext.wtf import Form
+from wtforms import (
+    StringField,
+    PasswordField,
+    RadioField,
+    DateField
+)
+from wtforms import validators
+from wtforms.fields.html5 import DateField
 
+class SignForm(Form):
+    email = StringField(
+        u'E-mail',
+        [
+            validators.data_required(message=u'please enter email'),
+            validators.Email(message=u'use email form')
+        ],
+        description = {'placeholder': u'likelion@gmail.com'}
+    )
+    password = PasswordField(
+        u'Password',
+        [
+            validators.data_required(message=u'please enter password'),
+            validators.Length(min=8, max=20, message=None)
+        ],
+        description = {'placeholder': u'password'}
+    )
+    password_check = PasswordField(
+        u'Password check',
+        [
+            validators.data_required(message=u'please enter password'),
+            validators.Length(min=8, max=20, message=None)
+        ],
+        description = {'placeholder': u'password check'}
+    )
+    username = StringField(
+        u'Username',
+        [
+            validators.data_required(message=u'please enter your name')
+        ],
+        description = {'placeholder': u'username'}
+    )
+    gender = RadioField(
+        u'Gender',
+        choices=[('M','Male'),('F','Femal')]
+    )
+    phone = StringField(
+        u'Phone',
+        [
+            validators.data_required(message=u'please your phone number')
+        ],
+        description = {'placeholder': u'phone number'}
+    )
+    birthday = DateField(
+        u'Birthday:'
+    )
 #-*-coding:UTF-8 -*-
 
 
 @app.route('/signup', methods=['POST', 'GET'])
 def signup():
-    session.pop('number', None)
-    message = None
-    error = None
     if request.method == 'POST':
-        if request.form['email'] == "" or request.form['password'] == "":
-            message = "Fill All The Blanks!"
-        elif bool(re.match("[a-zA-Z0-9\.\_]+\@[a-zA-Z0-9-]+\.(com|net|ac.kr|co.kr)$", request.form['email'])) == False:
-            message = "Email no match"
-        elif 8 <= len(request.form['password']) <= 20:          
-            if bool(re.search("[a-zA-Z]+", request.form['password'])) == False:
+        form = SignForm()
+        if form.validate_on_submit():
+            if bool(re.match("[a-zA-Z0-9\.\_]+\@[a-zA-Z0-9-]+\.(com|net|ac.kr|co.kr)$", form.email.data)) == False:
+                message = "Email no match"
+                return render_template('signup.html', message=message, form=form)
+            
+            if bool(re.search("[a-zA-Z]+", form.password.data)) == False:
                 message = "Password must have at least one Upper, Lower, Special Letter, and Number"
-            elif bool(re.search("[0-9]+", request.form['password'])) == False:
+                return render_template('signup.html', message=message, form=form)
+            elif bool(re.search("[0-9]+", form.password.data)) == False:
                 message = "Password must have at least one Upper, Lower, Special Letter, and Number"
-            elif bool(re.search("\W+", request.form['password'])) == False:
+                return render_template('signup.html', message=message, form=form)
+            elif bool(re.search("\W+", form.password.data)) == False:
                 message = "Password must have at least one Upper, Lower, Special Letter, and Number"
+                return render_template('signup.html', message=message, form=form)
             else:
-                if request.form['password_check'] == "":
-                    message = "Password_check is empty"
-                elif request.form['password_check'] != request.form['password']:
-                    message = "Password does not match"
-                else:
-                    add_user(request.form)
-                    message = "Signed up successfully"
-                    return render_template('login.html', message=message)
+                pass
+            
+            if form.password.data != form.password_check.data:
+                message = "Password does not match"
+                return render_template('signup.html', message=message, form=form)
+            else:
+                usermanager.add_user(form.data)
+                message = "Signed up successfully"
+                return redirect(url_for('login'))
         else:
-            message = "The Password is Short!"
+            return render_template('signup.html', form=form)
     else:
-        return render_template('signup.html', message=message)
+        form = SignForm()
+        return render_template('signup.html', form=form)
 
 
 @app.route("/email_check", methods=['POST'])
 def email_check():
+    form = SignForm()
     result = {}
-    if get_user_by_email2(request.form['email']):
+    if usermanager.get_user_by_email2(form.email.data):
         result['message'] = "error"
     else:
         result['message'] = "ok"
@@ -54,7 +112,7 @@ def email_check():
 @app.route("/phone_check", methods=['POST'])
 def phone_check():
     result={}
-    if get_user_by_phone(request.form['phone']):
+    if usermanager.get_user_by_phone(request.form['phone']):
         result['message'] = 'error'
     else:
         result['message'] = 'ok'
@@ -63,17 +121,9 @@ def phone_check():
 
 @app.route("/info_revise/<int:id>")
 def user_revise(id):
-    get_user = get_user_by_id(id)
+    get_user = usermanager.get_user_by_id(id)
     data= { 'email' : get_user.email,
     'username' : get_user.username,
     'phone' : get_user.phone
     }
     return render_template("signup.html", data=data)
-
-
-@app.route("/info_revise_check/<int:id>", methods=['GET', 'POST'])
-def user_revise_check(id):
-    get_user = get_user_by_id(id)
-    revise_user(id, request.form)
-    session['user_name']=get_user.username
-    return redirect(url_for('wall', wall_id=get_user.id))

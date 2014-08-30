@@ -10,7 +10,52 @@
       {% if data %}
       <form action="{{ url_for('user_revise_check', id=session.user_id) }}" method=post>
         <dl>
-          <dt>E-mail:</dt>
+          {% if form %}
+
+            {{ form.hidden_tag() }}
+
+            {% if form.errors %}
+              <div class="alert alert-danger fade in">
+                <a href="#" class="close" data-dismiss="alert"> &times; </a>
+                {% for field, errors in form.errors.items() %}
+                  <ul>
+                      {% for error in errors %}
+                      <li> {{errors}} </li>
+                      {% endfor %}
+                  </ul>
+                {% endfor %}
+              </div>
+            {% endif %}
+
+            {% if message %}
+            <div class="alert alert-danger fade in">
+                <a href="#" class="close" data-dismiss="alert"> &times; </a>
+                {{ message }}
+            </div>
+            {% endif %}
+            
+            {% for field in form if field.widget.input_type !="hidden" %}
+              <div class="form-group{% if field.errors %} has-error {% endif %}">
+                <label for="{{field.id}}">{{ field.label }}</label>
+                {% if field.type == "RadioField" %}
+                  {{ field(placeholder = field.description.placeholder) }}
+                {% else %}
+                  {{ field(class="form-control", placeholder = field.description.placeholder) }}
+                {% endif %}
+                
+                {% if field.errors %}
+                  <div class="help-block">
+                    <ul>
+                      {% for error in field.errors %}
+                        <li> {{error}} </li>
+                      {% endfor %}
+                    </ul>
+                  </div>
+                {% endif %}
+              </div>
+            {% endfor %}
+          {% endif %}
+          <!-- <dt>E-mail:</dt>
           <dd><textarea rows="1" cols="50" name="email" id="myemail">{{data.email}}</textarea></dd>
           <div id="email_ok" class="signupmessageok"></div><div id="email_err" class="signupmessageerr"></div>
           <dt>Password:</dt>
@@ -33,14 +78,58 @@
           <div id="mobile_ok" class="signupmessageok"></div><div id="mobile_err" class="signupmessageerr"></div><br>
           <dt>Birthday:</dt>
           <dd><input type="date" name="birthday" size="50"></dd>
-          <div id="birthday_ok" class="signupmessageok"></div><div id="birthday_err" class="signupmessageerr"></div><br>
+          <div id="birthday_ok" class="signupmessageok"></div><div id="birthday_err" class="signupmessageerr"></div><br> -->
           <dd><input type=submit value="Submit"></dd>
         </dl>
       </form>
       {% else %}
       <form action="{{ url_for('signup') }}" method=post>
         <dl>
-          <dt>E-mail:</dt>
+          {% if form %}
+
+            {{ form.hidden_tag() }}
+
+            {% if form.errors %}
+              <div class="alert alert-danger fade in">
+                <a href="#" class="close" data-dismiss="alert"> &times; </a>
+                {% for field, errors in form.errors.items() %}
+                  <ul>
+                      {% for error in errors %}
+                      <li> {{errors}} </li>
+                      {% endfor %}
+                  </ul>
+                {% endfor %}
+              </div>
+            {% endif %}
+
+            {% if message %}
+            <div class="alert alert-danger fade in">
+                <a href="#" class="close" data-dismiss="alert"> &times; </a>
+                {{ message }}
+            </div>
+            {% endif %}
+            
+            {% for field in form if field.widget.input_type !="hidden" %}
+              <div class="form-group{% if field.errors %} has-error {% endif %}">
+                <label for="{{field.id}}">{{ field.label }}</label>
+                {% if field.type == "RadioField" %}
+                  {{ field(placeholder = field.description.placeholder) }}
+                {% else %}
+                  {{ field(class="form-control", placeholder = field.description.placeholder) }}
+                {% endif %}
+                {% if field.errors %}
+                  <div class="help-block">
+                    <ul>
+                      {% for error in field.errors %}
+                        <li> {{error}} </li>
+                      {% endfor %}
+                    </ul>
+                  </div>
+                {% endif %}
+              </div>
+            {% endfor %}
+          {% endif %}
+          <!-- <dt>E-mail:</dt>
           <dd><input type=text name="email" id="myemail" size="50"></dd>
           <div id="email_ok" class="signupmessageok"></div><div id="email_err" class="signupmessageerr"></div><br>
           <dt>Password:</dt>
@@ -63,7 +152,7 @@
           <div id="mobile_ok" class="signupmessageok"></div><div id="mobile_err" class="signupmessageerr"></div><br>
           <dt>Birthday:</dt>
           <dd><input type="date" name="birthday" size="50"></dd>
-          <div id="birthday_ok" class="signupmessageok"></div><div id="birthday_err" class="signupmessageerr"></div><br>
+          <div id="birthday_ok" class="signupmessageok"></div><div id="birthday_err" class="signupmessageerr"></div><br> -->
           <dd><input type=submit value="Submit"></dd>
         </dl>
       </form>

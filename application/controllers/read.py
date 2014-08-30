@@ -1,9 +1,8 @@
-from flask import Flask, request, session, g, redirect, url_for, abort, render_template, flash
-from application import app, db
+from flask import session, redirect, url_for, render_template
+from application import app
 from application.models.schema import *
-from application.models.usermanager import *
-from application.models.postmanager import *
-from application.models.commentmanager import *
+from application.models import usermanager
+from application.models import postmanager
 from sqlalchemy import asc
 
 @app.route('/read', defaults={'id':0, 'message':None})
@@ -18,12 +17,12 @@ def read(id, wall_id, message):
         wall_id = session['user_id']
 
     session['wall_id'] = wall_id
-    session['wall_username']=get_user(wall_id).username
+    session['wall_username']=usermanager.get_user(wall_id).username
     session['post_id'] = id
 
-    readpost=read_post_by_id(id)
+    readpost=postmanager.read_post_by_id(id)
 
-    readcomment = read_post_by_id(id).comments.order_by(asc(Comment.created_time))
+    readcomment = postmanager.read_post_by_id(id).comments.order_by(asc(Comment.created_time))
     message=message
 
     return render_template('read.html', readpost=readpost, readcomment=readcomment, message=message)
