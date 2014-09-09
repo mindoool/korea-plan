@@ -9,6 +9,7 @@ class User(db.Model):
 	phone		= db.Column(db.String(15))
 	birthday	= db.Column(db.Date)
 	profile_image = db.Column(db.String(100))
+	is_admin	= db.Column(db.Boolean, default='0')
 
 class Post(db.Model):
 	id			= db.Column(db.Integer, primary_key=True)

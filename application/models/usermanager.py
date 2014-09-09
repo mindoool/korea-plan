@@ -13,7 +13,7 @@ def add_user(data):
 	db.session.commit() 
 
 def login_check(email, password):
-	return User.query.filter(User.email == email, User.password == db.func.md5(password)).count() != 0
+	return User.query.filter(User.email == email, User.password == db.func.md5(password))
 
 def get_user(wall_id):
 	return User.query.filter(User.id == wall_id).one()

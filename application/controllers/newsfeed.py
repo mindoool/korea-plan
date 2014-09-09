@@ -1,10 +1,10 @@
-from flask import request, session, g, redirect, url_for, abort, render_template, flash
-from application import app, db
+from flask import request, session, redirect, url_for, render_template
+from application import app
 from application.models.schema import *
-from application.models.usermanager import *
-from application.models.postmanager import *
-from application.models.followmanager import *
-import json
+from application.models import usermanager
+from application.models import postmanager
+from sqlalchemy import desc
+
 
 @app.route('/newsfeed', defaults={'newsfeed_id':0})
 @app.route('/newsfeed/<int:newsfeed_id>')
@@ -15,7 +15,7 @@ def newsfeed(newsfeed_id):
         newsfeed_id = session['user_id']
         
     session['newsfeed_id'] = newsfeed_id
-    session['newsfeed_username']=get_user(newsfeed_id).username
+    session['newsfeed_username']=usermanager.get_user(newsfeed_id).username
 
     return render_template('newsfeed.html')
 
@@ -23,13 +23,13 @@ def newsfeed(newsfeed_id):
 @app.route('/newsfeed_ajax', methods=['POST', 'GET'])
 def newsfeed_ajax():
     followee_list=[]
-    followees = get_user_by_id(session['user_id']).followees
+    followees = usermanager.get_user_by_id(session['user_id']).followees
     for followee in followees:
         followee_list.append(followee.followee_id)
 
     if 'number' in request.form:
         offset=int(request.form['number'])
-        posts = newsfeed_post(session['user_id'], followee_list).order_by(desc(Post.created_time))
+        posts = postmanager.newsfeed_post(session['user_id'], followee_list).order_by(desc(Post.created_time))
         if posts.count() > offset+5 :
             readpost = posts.slice(offset,offset+5)
             return render_template("newsfeed_ajax.html", readpost=readpost)    
@@ -40,6 +40,6 @@ def newsfeed_ajax():
         else:
             return ''
     else:
-        posts = newsfeed_post(session['user_id'], followee_list).order_by(desc(Post.created_time))
+        posts = postmanager.newsfeed_post(session['user_id'], followee_list).order_by(desc(Post.created_time))
         readpost=posts.slice(0,5)
         return render_template("newsfeed_ajax.html", readpost=readpost)

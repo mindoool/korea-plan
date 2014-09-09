@@ -1,7 +1,7 @@
 from flask import session
 from application import db
 from schema import *
-from sqlalchemy import desc, or_
+
  
 def write_post(data):
     post = Post ( 
